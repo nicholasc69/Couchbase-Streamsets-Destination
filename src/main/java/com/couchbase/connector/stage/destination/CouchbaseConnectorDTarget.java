@@ -41,9 +41,10 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
   @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
-      defaultValue = "default",
+      defaultValue = "localhost:8091",
       label = "URL",
       displayPosition = 10,
+      description = "The URL endpoint of the Couchbase Database Cluster",
       group = "COUCHBASE"
   )
   public String URL;
@@ -57,9 +58,10 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
-      defaultValue = "default",
+      defaultValue = "Administrator",
       label = "Username",
       displayPosition = 10,
+      description = "Username of the Couchbase Administrator",
       group = "COUCHBASE"
   )
   public String username;
@@ -73,9 +75,10 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
-      defaultValue = "default",
+      defaultValue = "",
       label = "Password",
       displayPosition = 10,
+      description = "Password of the Couchbase Administrator",
       group = "COUCHBASE"
   )
   public String password;
@@ -89,9 +92,10 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
-      defaultValue = "default",
+      defaultValue = "",
       label = "Bucket",
       displayPosition = 10,
+      description = "Bucket to ingesting data from Streamset",
       group = "COUCHBASE"
   )
   public String bucket;
@@ -105,9 +109,10 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
   @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
-      defaultValue = "default",
+      defaultValue = "",
       label = "Unique Document Key Field",
       displayPosition = 10,
+      description = "A field in the document/data which will be used as the unqiure document key in Couchbase",
       group = "COUCHBASE"
   )
   public String documentKey;
