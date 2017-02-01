@@ -43,13 +43,13 @@ import org.slf4j.LoggerFactory;
 /**
  * This target is a used to connect to a Couchbase NoSQL Database.
  */
-public abstract class CocuhbaseConnectorTarget extends BaseTarget {
+public abstract class CouchbaseConnectorTarget extends BaseTarget {
     
     private CouchbaseConnector connector;
     
     private DataGeneratorFactory generatorFactory;
     
-    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
 
   /** {@inheritDoc} */
   @Override

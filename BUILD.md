@@ -9,7 +9,7 @@ To build the Couchbase Connector the following is required on the system:
 1. Get the project from GIT Hub
     Clone the project from GIT Hub using: https://github.com/nicholasc69/CouchbaseConnector.git
 
-2. Build and pakcage the Couchbase Connector
+2. Build and package the Couchbase Connector
     Build the Couchbase Connector using: mvn clean package
 
 3. Copy the tar to the Streamset User Lib Directory
