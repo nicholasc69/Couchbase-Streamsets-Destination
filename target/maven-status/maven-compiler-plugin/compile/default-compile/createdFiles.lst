@@ -1,9 +1,9 @@
 PipelineStages.json
 com/couchbase/connector/stage/destination/Groups.class
 com/coucbase/connector/stage/connection/CouchbaseConnector.class
-com/couchbase/connector/stage/destination/CocuhbaseConnectorTarget$1.class
 ElDefinitions.json
 datacollector-resource-bundles.json
+com/couchbase/connector/stage/destination/CouchbaseConnectorTarget.class
 com/couchbase/connector/stage/destination/CouchbaseConnectorDTarget.class
 com/couchbase/connector/stage/lib/Errors.class
-com/couchbase/connector/stage/destination/CocuhbaseConnectorTarget.class
+com/couchbase/connector/stage/destination/CouchbaseConnectorTarget$1.class

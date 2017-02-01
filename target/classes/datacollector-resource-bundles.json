@@ -1,5 +1,5 @@
 [
-  "com.couchbase.connector.stage.destination.CouchbaseConnectorDTarget",
+  "com.couchbase.connector.stage.lib.Errors",
   "com.couchbase.connector.stage.destination.Groups",
-  "com.couchbase.connector.stage.lib.Errors"
+  "com.couchbase.connector.stage.destination.CouchbaseConnectorDTarget"
 ]
