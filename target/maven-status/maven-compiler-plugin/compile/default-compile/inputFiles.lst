@@ -1,5 +1,5 @@
-/Users/nickc/OneDrive/Documents/NetBeansProjects/CouchbaseConnector/src/main/java/com/coucbase/connector/stage/connection/CouchbaseConnector.java
-/Users/nickc/OneDrive/Documents/NetBeansProjects/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/Groups.java
-/Users/nickc/OneDrive/Documents/NetBeansProjects/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/CouchbaseConnectorDTarget.java
-/Users/nickc/OneDrive/Documents/NetBeansProjects/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/lib/Errors.java
-/Users/nickc/OneDrive/Documents/NetBeansProjects/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/CocuhbaseConnectorTarget.java
+/Users/pat/src/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/CouchbaseConnectorTarget.java
+/Users/pat/src/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/lib/Errors.java
+/Users/pat/src/CouchbaseConnector/src/main/java/com/coucbase/connector/stage/connection/CouchbaseConnector.java
+/Users/pat/src/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/Groups.java
+/Users/pat/src/CouchbaseConnector/src/main/java/com/couchbase/connector/stage/destination/CouchbaseConnectorDTarget.java

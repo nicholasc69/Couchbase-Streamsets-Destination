@@ -1,0 +1,28 @@
+# Git
+*.rej
+*.orig
+
+# Maven
+target
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Eclipse
+.classpath
+.project
+.settings
+
+#vim
+*.swp
+
+#OSX
+.DS_Store
+
+.gitreview
+
+# maven shade
+dependency-reduced-pom.xml

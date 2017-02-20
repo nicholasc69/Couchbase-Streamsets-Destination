@@ -36,7 +36,7 @@ import com.streamsets.pipeline.api.StageDef;
 @ConfigGroups(value = Groups.class)
 @GenerateResourceBundle
 
-public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
+public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
 
   @ConfigDef(
       required = true,
@@ -112,7 +112,7 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
       defaultValue = "",
       label = "Unique Document Key Field",
       displayPosition = 10,
-      description = "A field in the document/data which will be used as the unqiure document key in Couchbase",
+      description = "A field in the document/data which will be used as the unique document key in Couchbase",
       group = "COUCHBASE"
   )
   public String documentKey;

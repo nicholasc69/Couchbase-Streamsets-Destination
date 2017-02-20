@@ -12,7 +12,7 @@ import com.couchbase.client.java.cluster.ClusterManager;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.JsonStringDocument;
 import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.connector.stage.destination.CocuhbaseConnectorTarget;
+import com.couchbase.connector.stage.destination.CouchbaseConnectorTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class CouchbaseConnector {
     private ClusterManager clusterManager;
     private Bucket bucket;
     
-    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
     
     private CouchbaseConnector(String urlString, String usernameString, String passwordString, String bucketString) {
         connectToCouchbaseServer(urlString, usernameString, passwordString, bucketString);
