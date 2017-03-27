@@ -3,7 +3,7 @@
 *.orig
 
 # Maven
-target
+target/
 
 # IntelliJ
 *.iml
