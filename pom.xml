@@ -144,4 +144,5 @@
       </plugin>
     </plugins>
   </build>
+    <name>Couchbase-Streamsets-Connector</name>
 </project>

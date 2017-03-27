@@ -17,35 +17,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.couchbase.connector.stage.destination;
+package com.couchbase.connector.stage.origin;
 
 import com.streamsets.pipeline.api.ConfigDef;
 import com.streamsets.pipeline.api.ConfigGroups;
+import com.streamsets.pipeline.api.ExecutionMode;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
 import com.streamsets.pipeline.api.StageDef;
 
 @StageDef(
     version = 1,
     label = "Couchbase",
-    description = "Couchbase Destination",
+    description = "Couchbase Origin",
     icon = "couchbase.png",
+    execution = ExecutionMode.STANDALONE,
     recordsByRef = true,
     onlineHelpRefUrl = ""
 )
-
 @ConfigGroups(value = Groups.class)
 @GenerateResourceBundle
+public class CouchbaseConnectorDSource extends CouchbaseConnectorSource {
 
-public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
-
-  @ConfigDef(
+@ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "localhost:8091",
       label = "URL",
       displayPosition = 10,
-      description = "The URL endpoint of the Couchbase NoSQL Database Cluster",
-      group = "COUCHBASE_TARGET"
+      description = "The URL endpoint of the Couchbase Database Cluster",
+      group = "COUCHBASE_SOURCE"
   )
   public String URL;
 
@@ -54,7 +54,7 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
   public String getURL() {
     return URL;
   }
-  /**  
+  
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
@@ -62,41 +62,24 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
       label = "Username",
       displayPosition = 10,
       description = "Username of the Couchbase Administrator",
-      group = "COUCHBASE_TARGET"
+      group = "COUCHBASE_SOURCE"
   )
   public String username;
 
+  /** {@inheritDoc} */
   @Override
   public String getUsername() {
     return username;
   }
-**/
-
+  
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "",
-      label = "Bucket",
+      label = "Password",
       displayPosition = 10,
-      description = "Couchbase Destination Bucket to ingesting data",
-      group = "COUCHBASE_TARGET"
-  )
-  public String bucket;
-
-  /** {@inheritDoc} */
-  @Override
-  public String getBucket() {
-    return bucket;
-  }
-
-     @ConfigDef(
-      required = true,
-      type = ConfigDef.Type.STRING,
-      defaultValue = "",
-      label = "Password (for Bucket)",
-      displayPosition = 10,
-      description = "Password of the Couchbase Bucket",
-      group = "COUCHBASE_TARGET"
+      description = "Password of the Couchbase Administrator",
+      group = "COUCHBASE_SOURCE"
   )
   public String password;
 
@@ -105,40 +88,56 @@ public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
   public String getPassword() {
     return password;
   }
-   
+  
+    @ConfigDef(
+      required = true,
+      type = ConfigDef.Type.STRING,
+      defaultValue = "",
+      label = "Bucket",
+      displayPosition = 10,
+      description = "Bucket to query data from Streamset",
+      group = "COUCHBASE_SOURCE"
+  )
+  public String bucket;
+
+  /** {@inheritDoc} */
+  @Override
+  public String getBucket() {
+    return bucket;
+  }
+  
   @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "",
-      label = "Unique Document Key Field",
+      label = "Document Type",
       displayPosition = 10,
-      description = "A field in the document/data which will be used as the unqiure document key in Couchbase",
-      group = "COUCHBASE_TARGET"
+      description = "Document Type to get from Bucket",
+      group = "COUCHBASE_SOURCE"
   )
-  public String documentKey;
+  public String documentType;
 
   /** {@inheritDoc} */
   @Override
-  public String getDocumentKey() {
-    return documentKey;
+  public String getDocumentType() {
+    return documentType;
   }
   
-    @ConfigDef(
-      required = false,
-      type = ConfigDef.Type.BOOLEAN,
-      defaultValue = "false",
-      label = "Generate unique Document Key",
+  @ConfigDef(
+      required = true,
+      type = ConfigDef.Type.NUMBER,
+      defaultValue = "1000",
+      label = "Max Bacth Size",
       displayPosition = 10,
-      description = "Generate a unique document key if document key field cannot be set",
-      group = "COUCHBASE_TARGET"
-    )
-  
-    public boolean generateDocumentKey;
+      description = "Maximum Bacth Size",
+      group = "COUCHBASE_SOURCE"
+  )
+  public int maxBatchSize;
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean generateDocumentKey() {
-        return generateDocumentKey;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int getMaximumBatchSize() {
+    return maxBatchSize;
+  }
 
 }

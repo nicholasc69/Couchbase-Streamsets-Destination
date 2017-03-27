@@ -24,7 +24,7 @@ import com.streamsets.pipeline.api.Label;
 
 @GenerateResourceBundle
 public enum Groups implements Label {
-  COUCHBASE("Couchbase"),
+  COUCHBASE_TARGET("Couchbase Destination"),
   ;
 
   private final String label;

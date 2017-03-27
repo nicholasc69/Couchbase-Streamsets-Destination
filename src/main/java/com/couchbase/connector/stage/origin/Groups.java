@@ -17,32 +17,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.couchbase.connector.stage.lib;
+package com.couchbase.connector.stage.origin;
 
-import com.streamsets.pipeline.api.ErrorCode;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
+import com.streamsets.pipeline.api.Label;
 
 @GenerateResourceBundle
-public enum Errors implements ErrorCode {
-
-  SAMPLE_00("Null Pointer Exeption thrown"),
-  SAMPLE_01("Specific reason writing record failed: {}"),
+public enum Groups implements Label {
+  COUCHBASE_SOURCE("Couchbase Origin"),
   ;
-  private final String msg;
 
-  Errors(String msg) {
-    this.msg = msg;
+  private final String label;
+
+  private Groups(String label) {
+    this.label = label;
   }
 
   /** {@inheritDoc} */
   @Override
-  public String getCode() {
-    return name();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String getMessage() {
-    return msg;
+  public String getLabel() {
+    return this.label;
   }
 }

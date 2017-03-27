@@ -20,6 +20,7 @@
 package com.couchbase.connector.stage.destination;
 
 import com.coucbase.connector.stage.connection.CouchbaseConnector;
+import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.connector.stage.lib.Errors;
 
@@ -35,30 +36,33 @@ import com.streamsets.pipeline.lib.generator.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * This target is a used to connect to a Couchbase NoSQL Database.
  */
-public abstract class CouchbaseConnectorTarget extends BaseTarget {
+public abstract class CocuhbaseConnectorTarget extends BaseTarget {
     
     private CouchbaseConnector connector;
     
     private DataGeneratorFactory generatorFactory;
     
-    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
 
   /** {@inheritDoc} */
   @Override
   protected List<ConfigIssue> init() {
     // Validate configuration values and open any required resources.
     List<ConfigIssue> issues = super.init();
-
-    LOG.info("Connecting to Couchbase with details: " + getURL() + " " + getBucket() + " " + getUsername());
-    connector = CouchbaseConnector.getInstance(getURL(), getUsername(), getPassword(), getBucket());
+    
+    //Connect to Couchbase DB
+    LOG.info("Connecting to Couchbase with details: " + getURL() + " " + getBucket());
+    connector = CouchbaseConnector.getInstance(getURL(), getPassword(), getBucket());
     
     //Data Generator for JSON Objects to Couchbase
     DataGeneratorFactoryBuilder builder = new DataGeneratorFactoryBuilder(
@@ -78,6 +82,7 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   public void destroy() {
     // Clean up any open resources.
     super.destroy();
+    connector.closeConnection();
     connector = null;
     
   }
@@ -85,12 +90,23 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   /** {@inheritDoc} */
   @Override
   public void write(Batch batch) throws StageException {
+     
+    LOG.info("Writing BATCH---------------------------------------------");
     Iterator<Record> batchIterator = batch.getRecords();
-
+    
+    //Create a list of JSON documents
+    List<JsonDocument> documentList = new ArrayList<JsonDocument>();
+    
+    //Create a List of JSON Document for Batch Iterator
     while (batchIterator.hasNext()) {
       Record record = batchIterator.next();
+              
       try {
-        write(record);
+        //Get JsonDocument from Record
+        JsonDocument doc = getJsonDocument(record);
+        //Add to list
+        documentList.add(doc);
+        
       } catch (Exception e) {
         switch (getContext().getOnErrorRecord()) {
           case DISCARD:
@@ -107,6 +123,10 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         }
       }
     }
+    
+    //Write Batch to Couchbase
+    connector.bulkSet(documentList);
+    
   }
 
   /**
@@ -118,23 +138,35 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   private void write(Record record) throws OnRecordErrorException {
     try {
         //Generate data from the record object and create JsonObject from byte ARRAY String   
-        LOG.info("Here is the record: " + record);
+        //LOG.info("Here is the record: " + record);
         ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
         DataGenerator generator = generatorFactory.getGenerator(baos);
         generator.write(record);
         generator.close();
         JsonObject jsonObject = JsonObject.fromJson(new String(baos.toByteArray()));
         
-        LOG.info("DATA - " + jsonObject);
-        Object keyObject = jsonObject.get(getDocumentKey());
-        if (keyObject == null)
-            throw new NullPointerException("Document Key is Null");
+        //LOG.info("DATA - " + jsonObject);
+        
+        //Either get key JSON or generate unique one
+        Object keyObject = null;
+        
+        if (generateDocumentKey()) {
+            UUID uuid = UUID.randomUUID();
+            keyObject = uuid.toString();
+        }
+        else {
+            keyObject = jsonObject.get(getDocumentKey());
+            if (keyObject == null)
+                throw new NullPointerException("Document Key is Null");
+        }
+        
         String keyString = keyObject.toString();
         
         //Write to Couchbase DB
-        LOG.info("Writing record with key - " + keyString + " - to Couchbase");
-        connector.writeToBucket(keyString, jsonObject);
-          
+        //LOG.info("Writing record with key - " + keyString + " - to Couchbase");
+        //connector.writeToBucketBatch(keyString, jsonObject);
+        connector.writeToBucketBatch(keyString, jsonObject);
+        
     } catch (NullPointerException ne) {
         LOG.error(ne.getMessage());
     } catch (IOException ioe) {
@@ -147,14 +179,56 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   //Configuration get methods
   public abstract String getURL();
   
-  public abstract String getUsername();
+ // public abstract String getUsername();
   
   public abstract String getPassword();
   
   public abstract String getBucket();
   
   public abstract String getDocumentKey();
-
   
+  public abstract boolean generateDocumentKey();
+  
+  
+  private JsonDocument getJsonDocument(Record record) {
+      JsonDocument doc = null;
+      
+      try {
+        //Generate data from the record object and create JsonObject from byte ARRAY String   
+        //LOG.info("Here is the record: " + record);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
+        DataGenerator generator = generatorFactory.getGenerator(baos);
+        generator.write(record);
+        generator.close();
+        JsonObject jsonObject = JsonObject.fromJson(new String(baos.toByteArray()));
+        
+        //LOG.info("DATA - " + jsonObject);
+        
+        //Either get key JSON or generate unique one
+        Object keyObject = null;
+        
+        if (generateDocumentKey()) {
+            UUID uuid = UUID.randomUUID();
+            keyObject = uuid.toString();
+        }
+        else {
+            keyObject = jsonObject.get(getDocumentKey());
+            if (keyObject == null)
+                throw new NullPointerException("Document Key is Null");
+        }
+        
+        String keyString = keyObject.toString();
+        
+        doc = JsonDocument.create(keyString, jsonObject);
+        
+      }  catch (NullPointerException ne) {
+            LOG.error(ne.getMessage());
+        } catch (IOException ioe) {
+            LOG.error(ioe.getMessage());
+        } catch (DataGeneratorException dge) {
+            LOG.error(dge.getMessage());
+        }
+      return doc;
+  }
 
 }
