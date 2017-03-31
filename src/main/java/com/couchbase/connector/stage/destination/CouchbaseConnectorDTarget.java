@@ -36,7 +36,7 @@ import com.streamsets.pipeline.api.StageDef;
 @ConfigGroups(value = Groups.class)
 @GenerateResourceBundle
 
-public class CouchbaseConnectorDTarget extends CocuhbaseConnectorTarget {
+public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
 
   @ConfigDef(
       required = true,

@@ -46,13 +46,13 @@ import org.slf4j.LoggerFactory;
 /**
  * This target is a used to connect to a Couchbase NoSQL Database.
  */
-public abstract class CocuhbaseConnectorTarget extends BaseTarget {
+public abstract class CouchbaseConnectorTarget extends BaseTarget {
     
     private CouchbaseConnector connector;
     
     private DataGeneratorFactory generatorFactory;
     
-    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
 
   /** {@inheritDoc} */
   @Override
@@ -165,7 +165,7 @@ public abstract class CocuhbaseConnectorTarget extends BaseTarget {
         //Write to Couchbase DB
         //LOG.info("Writing record with key - " + keyString + " - to Couchbase");
         //connector.writeToBucketBatch(keyString, jsonObject);
-        connector.writeToBucketBatch(keyString, jsonObject);
+        connector.writeToBucket(keyString, jsonObject);
         
     } catch (NullPointerException ne) {
         LOG.error(ne.getMessage());

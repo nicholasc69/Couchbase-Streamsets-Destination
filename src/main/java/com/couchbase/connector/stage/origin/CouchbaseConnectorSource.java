@@ -25,13 +25,8 @@ import com.couchbase.client.dcp.Client;
 import com.couchbase.client.dcp.ControlEventHandler;
 import com.couchbase.client.dcp.message.DcpMutationMessage;
 import com.couchbase.client.deps.io.netty.buffer.ByteBuf;
-import com.couchbase.client.java.Bucket;
-import com.couchbase.client.java.bucket.BucketManager;
 import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.client.java.query.N1qlQueryResult;
 import com.couchbase.client.java.query.N1qlQueryRow;
-import com.couchbase.connector.stage.destination.CocuhbaseConnectorTarget;
-import com.couchbase.connector.stage.lib.Errors;
 import com.couchbase.client.deps.io.netty.util.CharsetUtil;
 import com.couchbase.client.dcp.DataEventHandler;
 import com.couchbase.client.dcp.StreamFrom;
@@ -66,7 +61,7 @@ public abstract class CouchbaseConnectorSource extends BaseSource {
     //public abstract String getConfig();
   
     private CouchbaseConnector connector;
-    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorSource.class);
     private Client client = null;
     private String lastSourceOffset = "";
     

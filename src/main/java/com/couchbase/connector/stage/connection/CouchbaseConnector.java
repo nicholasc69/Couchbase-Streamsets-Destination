@@ -19,7 +19,7 @@ import com.couchbase.client.java.env.CouchbaseEnvironment;
 import com.couchbase.client.java.env.DefaultCouchbaseEnvironment;
 import com.couchbase.client.java.query.N1qlQuery;
 import com.couchbase.client.java.query.N1qlQueryResult;
-import com.couchbase.connector.stage.destination.CocuhbaseConnectorTarget;
+import com.couchbase.connector.stage.destination.CouchbaseConnectorTarget;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +49,7 @@ public class CouchbaseConnector {
     List<JsonDocument> documentList = new ArrayList<JsonDocument>();
    
     
-    private static final Logger LOG = LoggerFactory.getLogger(CocuhbaseConnectorTarget.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
     
     
      /**
@@ -67,16 +67,6 @@ public class CouchbaseConnector {
        
     }
     
-    private void connectToCouchbaseServer(String urlString, String usernameString, String passwordString, String bucketString) {
-        //Connect to Couchbase Cluster
-        cluster = CouchbaseCluster.create(urlString);
-        clusterManager = cluster.clusterManager(usernameString, passwordString);
-        
-        //Now lets open the bucket
-        bucket = cluster.openBucket(bucketString);
-
-    }
-    
     private void connectToCouchbaseServer(String urlString, String passwordString, String bucketString) {
         CouchbaseEnvironment env = DefaultCouchbaseEnvironment.builder()
                 .build();
@@ -87,21 +77,11 @@ public class CouchbaseConnector {
         bucket = cluster.openBucket(bucketString, passwordString);
         
     }
-    
-    public static CouchbaseConnector getInstance(String url, String username, String password, String bucket) {
-        
-        return new CouchbaseConnector(url, username, password, bucket);
-    }
 
     
     public static CouchbaseConnector getInstance(String url, String password, String bucket) {
         
         return new CouchbaseConnector(url, password, bucket);
-    }
-    
-        public static CouchbaseConnector getInstance(String url, String password, String bucket, int batchSize) {
-        
-        return new CouchbaseConnector(url, password, bucket, batchSize);
     }
         
      /**
@@ -152,11 +132,9 @@ public class CouchbaseConnector {
      * bulkSet 
      * <p>
      * bulkSet asynchronously bulk upserts JSON documents into Couchbase.
-     * NB!!!! Work in progress.
      * <p>
      *
-     * @param  documentKey Unique key of the JSON Document.          
-     * @param  jsonObject The JSON Object i.e document body.
+     * @param  docs A List of JsonDocuments.          
      */ 
     public void bulkSet(List<JsonDocument> docs) {
         final AsyncBucket asyncBucket = bucket.async();
