@@ -19,7 +19,7 @@
  */
 package com.couchbase.connector.stage.origin;
 
-import com.coucbase.connector.stage.connection.CouchbaseConnector;
+import com.couchbase.connector.stage.connection.CouchbaseConnector;
 import com.couchbase.client.core.event.CouchbaseEvent;
 import com.couchbase.client.dcp.Client;
 import com.couchbase.client.dcp.ControlEventHandler;

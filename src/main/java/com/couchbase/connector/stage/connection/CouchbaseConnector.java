@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.coucbase.connector.stage.connection;
+package com.couchbase.connector.stage.connection;
 
 import com.couchbase.client.core.BackpressureException;
 import com.couchbase.client.core.time.Delay;

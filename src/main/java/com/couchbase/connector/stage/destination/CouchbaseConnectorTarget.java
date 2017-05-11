@@ -19,7 +19,7 @@
  */
 package com.couchbase.connector.stage.destination;
 
-import com.coucbase.connector.stage.connection.CouchbaseConnector;
+import com.couchbase.connector.stage.connection.CouchbaseConnector;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.connector.stage.lib.Errors;

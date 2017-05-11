@@ -22,7 +22,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <streamsets.version>2.4.0.0</streamsets.version>
+    <streamsets.version>2.5.1.0</streamsets.version>
     <slf4j.version>1.7.7</slf4j.version>
     <junit.version>4.12</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,12 +30,6 @@
 
   <dependencies>
     <!-- Core StreamSets Dependencies for Stage Libraries -->
-    <dependency>
-      <groupId>com.streamsets</groupId>
-      <artifactId>streamsets-datacollector-api</artifactId>
-      <version>${streamsets.version}</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -82,11 +76,6 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.couchbase.client</groupId>
-      <artifactId>java-client</artifactId>
-      <version>2.4.3</version>
-    </dependency>
-    <dependency>
       <groupId>com.streamsets</groupId>
       <artifactId>streamsets-datacollector</artifactId>
       <version>${streamsets.version}</version>
@@ -99,14 +88,29 @@
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>com.streamsets</groupId>
-      <artifactId>streamsets-datacollector-commonlib</artifactId>
-      <version>2.4.2.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.jettison</groupId>
       <artifactId>jettison</artifactId>
       <version>1.3.7</version>
+    </dependency>
+    <dependency>
+      <groupId>com.streamsets</groupId>
+      <artifactId>streamsets-datacollector-commonlib</artifactId>
+      <version>2.5.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.streamsets</groupId>
+      <artifactId>streamsets-datacollector-common</artifactId>
+      <version>2.5.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.streamsets</groupId>
+      <artifactId>streamsets-datacollector-api</artifactId>
+      <version>2.5.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.couchbase.client</groupId>
+      <artifactId>java-client</artifactId>
+      <version>2.4.3</version>
     </dependency>
     <dependency>
       <groupId>com.couchbase.client</groupId>
