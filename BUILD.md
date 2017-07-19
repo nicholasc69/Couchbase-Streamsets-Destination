@@ -1,6 +1,6 @@
-#Building Couchbase Connector for Streamset
+#Building Couchbase Destination for Streamset
 
-To build the *Couchbase-Streamset-Connector* the following is required on the system:
+To build the *Couchbase-Streamset-Destination* the following is required on the system:
 
 * GIT
 * Apache Maven 3.3.9
@@ -11,14 +11,14 @@ To build the *Couchbase-Streamset-Connector* the following is required on the sy
 
     * Clone the project from GitHub using: https://github.com/nicholasc69/CouchbaseConnector.git
 
-2. Build and package the Couchbase Connector
+2. Build and package the Couchbase Destination
 
-    * Build the Couchbase Connector using: mvn clean package
+    * Build the Couchbase Destination using: mvn clean package
 
 3. Copy the tar to the Streamset User Lib Directory
 
     * Copy the generated tar from target to the `<STREAMSET_DIR>/user-libs`
-    *  Extract the contents of the tar in the user lib directory: `tar xvf "COUCHBASE_CONNECTOR.tar.gz"`
+    *  Extract the contents of the tar in the user lib directory: `tar xvf "COUCHBASE_DESTINATION.tar.gz"`
 
 4. Give AllSecurityPermissions to user lib directory
 
