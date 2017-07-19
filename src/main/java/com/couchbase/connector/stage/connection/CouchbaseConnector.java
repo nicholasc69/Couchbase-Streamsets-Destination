@@ -7,7 +7,7 @@ package com.couchbase.connector.stage.connection;
 
 import com.couchbase.client.core.BackpressureException;
 import com.couchbase.client.core.time.Delay;
-import com.couchbase.client.dcp.util.retry.RetryBuilder;
+import com.couchbase.client.java.util.retry.RetryBuilder;
 import com.couchbase.client.java.AsyncBucket;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
@@ -128,6 +128,14 @@ public class CouchbaseConnector {
                
     }
     
+    public void writeToBucket(List<JsonDocument> docs) {
+        
+        for (JsonDocument document : docs) {
+            bucket.upsert(document);
+        }
+        
+    }
+    
      /**
      * bulkSet 
      * <p>
@@ -138,7 +146,7 @@ public class CouchbaseConnector {
      */ 
     public void bulkSet(List<JsonDocument> docs) {
         final AsyncBucket asyncBucket = bucket.async();
-        LOG.info("Writing Batch to Couchbase");
+        LOG.info("Writing Batch size of " + docs.size() + " to Couchbase");
         Observable
                 .from(docs)
                 .flatMap(new Func1<JsonDocument, Observable<JsonDocument>>() {
@@ -148,7 +156,7 @@ public class CouchbaseConnector {
                         return asyncBucket.upsert(document)
                                 .retryWhen(RetryBuilder
                                     .anyOf(BackpressureException.class)
-                                    .delay(Delay.exponential(TimeUnit.MILLISECONDS, 100))
+                                    .delay(Delay.exponential(TimeUnit.MILLISECONDS, 10))
                                     .max(10)
                                     .build());
                     }
@@ -156,6 +164,7 @@ public class CouchbaseConnector {
                 .last()
                 .toBlocking()
                 .single();
+                
     }
     
     public N1qlQueryResult queryBucket(String documentType) {

@@ -29,6 +29,7 @@ import com.streamsets.pipeline.api.Record;
 import com.streamsets.pipeline.api.StageException;
 import com.streamsets.pipeline.api.base.BaseTarget;
 import com.streamsets.pipeline.api.base.OnRecordErrorException;
+import com.streamsets.pipeline.api.ext.json.Mode;
 import com.streamsets.pipeline.api.impl.Utils;
 import com.streamsets.pipeline.config.DataFormat;
 import com.streamsets.pipeline.config.JsonMode;
@@ -70,7 +71,7 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         DataFormat.JSON.getGeneratorFormat()
     );
     builder.setCharset(StandardCharsets.UTF_8);
-    builder.setMode(JsonMode.MULTIPLE_OBJECTS);
+    builder.setMode(Mode.MULTIPLE_OBJECTS);
     generatorFactory = builder.build();
 
     // If issues is not empty, the UI will inform the user of each configuration issue in the list.
@@ -105,6 +106,7 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         //Get JsonDocument from Record
         JsonDocument doc = getJsonDocument(record);
         //Add to list
+        //System.out.println(doc.content().get("ID"));
         documentList.add(doc);
         
       } catch (Exception e) {
@@ -125,7 +127,8 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
     }
     
     //Write Batch to Couchbase
-    connector.bulkSet(documentList);
+    connector.bulkSet(documentList); //Not working for some reason
+    //connector.writeToBucket(documentList);
     
   }
 

@@ -21,8 +21,7 @@ package com.couchbase.connector.stage.destination.sample;
 
 import com.streamsets.pipeline.api.Field;
 import com.streamsets.pipeline.api.Record;
-import com.streamsets.pipeline.sdk.RecordCreator;
-import com.streamsets.pipeline.sdk.TargetRunner;
+
 import org.junit.Test;
 
 import java.util.Arrays;
