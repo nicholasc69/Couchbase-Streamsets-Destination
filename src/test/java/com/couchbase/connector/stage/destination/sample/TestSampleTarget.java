@@ -19,14 +19,7 @@
  */
 package com.couchbase.connector.stage.destination.sample;
 
-import com.streamsets.pipeline.api.Field;
-import com.streamsets.pipeline.api.Record;
-
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TestSampleTarget {
   @Test

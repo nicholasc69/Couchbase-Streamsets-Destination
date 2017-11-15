@@ -1,28 +1,10 @@
-/**
- * Copyright 2015 StreamSets Inc.
- *
- * Licensed under the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.couchbase.connector.stage.destination;
 
 import com.streamsets.pipeline.api.ConfigDef;
 import com.streamsets.pipeline.api.ConfigGroups;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
 import com.streamsets.pipeline.api.StageDef;
+import com.streamsets.pipeline.api.ValueChooserModel;
 
 @StageDef(
     version = 1,
@@ -38,101 +20,148 @@ import com.streamsets.pipeline.api.StageDef;
 
 public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
 
-  @ConfigDef(
-      required = true,
-      type = ConfigDef.Type.STRING,
-      defaultValue = "localhost:8091",
-      label = "URL",
-      displayPosition = 10,
-      description = "The URL endpoint of the Couchbase NoSQL Database Cluster",
-      group = "COUCHBASE_TARGET"
-  )
-  public String URL;
-
-  /** {@inheritDoc} */
-  @Override
-  public String getURL() {
-    return URL;
-  }
-  /**  
     @ConfigDef(
-      required = true,
-      type = ConfigDef.Type.STRING,
-      defaultValue = "Administrator",
-      label = "Username",
-      displayPosition = 10,
-      description = "Username of the Couchbase Administrator",
-      group = "COUCHBASE_TARGET"
-  )
-  public String username;
+        required = true,
+        type = ConfigDef.Type.STRING,
+        defaultValue = "localhost:8091",
+        label = "URL",
+        displayPosition = 10,
+        description = "The URL endpoint of the Couchbase NoSQL Database Cluster",
+        group = "COUCHBASE_TARGET"
+    )
+    public String URL;
 
-  @Override
-  public String getUsername() {
-    return username;
-  }
-**/
+    /** {@inheritDoc} */
+    @Override
+    public String getURL() {
+      return URL;
+    }
+
+      @ConfigDef(
+        required = true,
+        type = ConfigDef.Type.STRING,
+        defaultValue = "",
+        label = "Bucket",
+        displayPosition = 20,
+        description = "Couchbase Destination Bucket to ingesting data",
+        group = "COUCHBASE_TARGET"
+      )
+    public String bucket;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getBucket() {
+      return bucket;
+    }
 
     @ConfigDef(
-      required = true,
-      type = ConfigDef.Type.STRING,
-      defaultValue = "",
-      label = "Bucket",
-      displayPosition = 10,
-      description = "Couchbase Destination Bucket to ingesting data",
-      group = "COUCHBASE_TARGET"
-  )
-  public String bucket;
+        required = true,
+        type = ConfigDef.Type.MODEL,
+        defaultValue = "VERSION4",
+        label = "Couchbase NoSQL Database Version",
+        description = "Specify the version of the Couchbase NoSQL Database",
+        displayPosition = 30,
+        group = "COUCHBASE_TARGET"
+    )
+    @ValueChooserModel(CouchbaseVersionChooserValues.class)
+    public CouchbaseVersionTypes version = CouchbaseVersionTypes.VERSION4; //Default
 
-  /** {@inheritDoc} */
-  @Override
-  public String getBucket() {
-    return bucket;
-  }
+      /** {@inheritDoc} */
+    @Override
+    public CouchbaseVersionTypes getCouchbaseVersion() {
+      return version;
+    }
+  
+    //Version 4 Config  
 
-     @ConfigDef(
-      required = true,
-      type = ConfigDef.Type.STRING,
-      defaultValue = "",
-      label = "Password (for Bucket)",
-      displayPosition = 10,
-      description = "Password of the Couchbase Bucket",
-      group = "COUCHBASE_TARGET"
-  )
-  public String password;
+    @ConfigDef(
+        required = true,
+        type = ConfigDef.Type.STRING,
+        defaultValue = "",
+        label = "Password (for Bucket)",
+        displayPosition = 40,
+        description = "Password of the Couchbase Version 4 Bucket",
+        dependsOn = "version",
+        triggeredByValue = "VERSION4",
+        group = "COUCHBASE_TARGET"
+    )
+    public String bucketPassword;
 
-  /** {@inheritDoc} */
-  @Override
-  public String getPassword() {
-    return password;
-  }
-   
-  @ConfigDef(
+    /** {@inheritDoc} */
+    @Override
+    public String getBucketPassword() {
+      return bucketPassword;
+    }
+
+    //Version 5 Config
+
+    @ConfigDef(
+        required = true,
+        type = ConfigDef.Type.STRING,
+        defaultValue = "",
+        label = "Couchbase User Name",
+        displayPosition = 40,
+        description = "Specify a Couchbase user name for connecting the bucket",
+        dependsOn = "version",
+        triggeredByValue = "VERSION5",
+        group = "COUCHBASE_TARGET"
+    )
+    public String userName;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getUserName() {
+      return userName;
+    }
+    
+    @ConfigDef(
+        required = true,
+        type = ConfigDef.Type.STRING,
+        defaultValue = "",
+        label = "Couchbase User Password",
+        displayPosition = 50,
+        description = "Specify a password for the Couchbase user name",
+        dependsOn = "version",
+        triggeredByValue = "VERSION5",
+        group = "COUCHBASE_TARGET"
+    )
+    public String userPassword;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getUserPassword() {
+      return userPassword;
+    }
+
+
+    @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "",
       label = "Unique Document Key Field",
-      displayPosition = 10,
-      description = "A field in the document/data which will be used as the unqiure document key in Couchbase",
+      displayPosition = 50,
+      description = "A field in the document/data which will be used as the unique document key in Couchbase",
       group = "COUCHBASE_TARGET"
-  )
-  public String documentKey;
+    )
 
-  /** {@inheritDoc} */
-  @Override
-  public String getDocumentKey() {
-    return documentKey;
-  }
-  
+    public String documentKey;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getDocumentKey() {
+      return documentKey;
+    }
+
     @ConfigDef(
       required = false,
       type = ConfigDef.Type.BOOLEAN,
       defaultValue = "false",
       label = "Generate unique Document Key",
-      displayPosition = 10,
+      displayPosition = 60,
       description = "Generate a unique document key if document key field cannot be set",
       group = "COUCHBASE_TARGET"
     )
-  
+
     public boolean generateDocumentKey;
 
     /** {@inheritDoc} */
@@ -140,5 +169,4 @@ public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
     public boolean generateDocumentKey() {
         return generateDocumentKey;
     }
-
 }

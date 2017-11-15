@@ -12,9 +12,6 @@ import com.couchbase.client.java.cluster.ClusterManager;
 import com.couchbase.client.java.document.json.JsonObject;
 import com.couchbase.client.java.query.N1qlQuery;
 import com.couchbase.client.java.query.N1qlQueryResult;
-import java.util.Iterator;
-import java.util.Set;
-import javax.swing.text.FieldView;
 
 /**
  *

@@ -2,12 +2,16 @@ PipelineStages.json
 LineagePublishers.json
 com/couchbase/connector/stage/destination/CouchbaseConnectorTarget.class
 com/couchbase/connector/stage/connection/CouchbaseConnector$1.class
-com/couchbase/connector/stage/lib/Errors.class
 CredentialStores.json
+com/couchbase/connector/stage/lib/Errors.class
+Services.json
 test/TestJsonObject.class
 com/couchbase/connector/stage/connection/CouchbaseConnector.class
 com/couchbase/connector/stage/destination/Groups.class
 ElDefinitions.json
+com/couchbase/connector/stage/destination/CouchbaseVersionTypes.class
 datacollector-resource-bundles.json
+com/couchbase/connector/stage/destination/CouchbaseVersionChooserValues.class
 com/couchbase/connector/stage/destination/CouchbaseConnectorDTarget.class
 com/couchbase/connector/stage/destination/CouchbaseConnectorTarget$1.class
+StageDefList.json

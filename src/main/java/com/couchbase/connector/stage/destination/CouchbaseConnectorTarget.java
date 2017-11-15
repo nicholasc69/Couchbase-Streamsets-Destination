@@ -32,8 +32,10 @@ import com.streamsets.pipeline.api.base.OnRecordErrorException;
 import com.streamsets.pipeline.api.ext.json.Mode;
 import com.streamsets.pipeline.api.impl.Utils;
 import com.streamsets.pipeline.config.DataFormat;
-import com.streamsets.pipeline.config.JsonMode;
-import com.streamsets.pipeline.lib.generator.*;
+import com.streamsets.pipeline.lib.generator.DataGeneratorException;
+import com.streamsets.pipeline.lib.generator.DataGeneratorFactoryBuilder;
+import com.streamsets.pipeline.lib.generator.DataGeneratorFactory;
+import com.streamsets.pipeline.lib.generator.DataGenerator;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -62,8 +64,13 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
     List<ConfigIssue> issues = super.init();
     
     //Connect to Couchbase DB
-    LOG.info("Connecting to Couchbase with details: " + getURL() + " " + getBucket());
-    connector = CouchbaseConnector.getInstance(getURL(), getPassword(), getBucket());
+    LOG.info("Connecting to Couchbase " + getCouchbaseVersion() +  " with details: " + getURL() + " " + getBucket());
+    
+    //Check Couchbase Version
+    if (getCouchbaseVersion() == CouchbaseVersionTypes.VERSION4)
+        connector = CouchbaseConnector.getInstance(getURL(), getBucket(), getBucketPassword());
+    else
+        connector = CouchbaseConnector.getInstance(getURL(), getBucket(), getUserName(), getUserPassword());
     
     //Data Generator for JSON Objects to Couchbase
     DataGeneratorFactoryBuilder builder = new DataGeneratorFactoryBuilder(
@@ -92,7 +99,6 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   @Override
   public void write(Batch batch) throws StageException {
      
-    LOG.info("Writing BATCH---------------------------------------------");
     Iterator<Record> batchIterator = batch.getRecords();
     
     //Create a list of JSON documents
@@ -126,9 +132,14 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
       }
     }
     
-    //Write Batch to Couchbase
-    connector.bulkSet(documentList); //Not working for some reason
-    //connector.writeToBucket(documentList);
+    if (documentList.size() > 0) {
+        LOG.info("Writing BATCH with " + documentList.size() + " number of records. ");
+
+        //Write Batch to Couchbase
+        connector.bulkSet(documentList); //Not working for some reason
+        //connector.writeToBucket(documentList);
+    }
+    
     
   }
 
@@ -178,21 +189,7 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         LOG.error(dge.getMessage());
     }
   }
-  
-  //Configuration get methods
-  public abstract String getURL();
-  
- // public abstract String getUsername();
-  
-  public abstract String getPassword();
-  
-  public abstract String getBucket();
-  
-  public abstract String getDocumentKey();
-  
-  public abstract boolean generateDocumentKey();
-  
-  
+ 
   private JsonDocument getJsonDocument(Record record) {
       JsonDocument doc = null;
       
@@ -224,14 +221,32 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         
         doc = JsonDocument.create(keyString, jsonObject);
         
-      }  catch (NullPointerException ne) {
+      } catch (NullPointerException ne) {
             LOG.error(ne.getMessage());
-        } catch (IOException ioe) {
+      } catch (IOException ioe) {
             LOG.error(ioe.getMessage());
-        } catch (DataGeneratorException dge) {
-            LOG.error(dge.getMessage());
-        }
+      } catch (DataGeneratorException dge) {
+        LOG.error(dge.getMessage());
+      }
+        
       return doc;
   }
+  
+   //Configuration get methods
+  public abstract String getURL();
+  
+  public abstract String getUserName();
+  
+  public abstract String getUserPassword();
+  
+  public abstract String getBucketPassword();
+  
+  public abstract String getBucket();
+  
+  public abstract String getDocumentKey();
+  
+  public abstract boolean generateDocumentKey();
+  
+  public abstract CouchbaseVersionTypes getCouchbaseVersion();
 
 }
