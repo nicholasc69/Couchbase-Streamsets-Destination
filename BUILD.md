@@ -44,4 +44,4 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
         };
 
 
-Restart StreamSets Data Collector. In the pipeline builder screen a Couchbase Destination is avaliable in Destinations section of the stage library 
+Restart StreamSets Data Collector. In the pipeline editor a Couchbase Destination is avaliable in Destinations list.
