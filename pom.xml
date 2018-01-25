@@ -22,7 +22,7 @@
   <version>2.0</version>
 
   <properties>
-    <streamsets.version>2.6.0.0</streamsets.version>
+    <streamsets.version>3.0.2.0</streamsets.version>
     <slf4j.version>1.7.7</slf4j.version>
     <junit.version>4.12</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,18 +30,6 @@
 
   <dependencies>
     <!-- Core StreamSets Dependencies for Stage Libraries -->
-      <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
@@ -81,12 +69,25 @@
     <dependency>
       <groupId>com.streamsets</groupId>
       <artifactId>streamsets-datacollector-api</artifactId>
-      <version>3.1.0.0-SNAPSHOT</version>
+      <version>${streamsets.version}</version>
     </dependency>
     <dependency>
       <groupId>com.streamsets</groupId>
       <artifactId>streamsets-datacollector-commonlib</artifactId>
-      <version>3.1.0.0-SNAPSHOT</version>
+      <version>${streamsets.version}</version>
+      <scope>provided</scope>
+    </dependency>
+     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 

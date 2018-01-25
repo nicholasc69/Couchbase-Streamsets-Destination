@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,8 +138,14 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
 
         //Write Batch to Couchbase
         connector.bulkSet(documentList); //Not working for some reason
-        //connector.writeToBucket(documentList);
+        try {
+            //connector.writeToBucket(documentList);
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            LOG.error(ex.getMessage());
+        }
     }
+        LOG.info("Batch size is zero");
     
     
   }
