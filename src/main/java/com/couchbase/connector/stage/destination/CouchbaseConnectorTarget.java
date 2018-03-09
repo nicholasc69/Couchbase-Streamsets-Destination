@@ -29,9 +29,13 @@ import com.streamsets.pipeline.api.Record;
 import com.streamsets.pipeline.api.StageException;
 import com.streamsets.pipeline.api.base.BaseTarget;
 import com.streamsets.pipeline.api.base.OnRecordErrorException;
+import com.streamsets.pipeline.api.el.ELEval;
+import com.streamsets.pipeline.api.el.ELEvalException;
+import com.streamsets.pipeline.api.el.ELVars;
 import com.streamsets.pipeline.api.ext.json.Mode;
 import com.streamsets.pipeline.api.impl.Utils;
 import com.streamsets.pipeline.config.DataFormat;
+import com.streamsets.pipeline.lib.el.RecordEL;
 import com.streamsets.pipeline.lib.generator.DataGeneratorException;
 import com.streamsets.pipeline.lib.generator.DataGeneratorFactoryBuilder;
 import com.streamsets.pipeline.lib.generator.DataGeneratorFactory;
@@ -57,12 +61,20 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
     private DataGeneratorFactory generatorFactory;
     
     private static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnectorTarget.class);
+    
+    private static final String CUS_DOC_KEY_RESOURCE_NAME = "customDocumentKey";
+    private ELEval customDocKeyEvals;
+    private ELVars customDocKeyVars;
 
   /** {@inheritDoc} */
   @Override
   protected List<ConfigIssue> init() {
     // Validate configuration values and open any required resources.
     List<ConfigIssue> issues = super.init();
+    
+    //EL Init
+    customDocKeyEvals = getContext().createELEval(CUS_DOC_KEY_RESOURCE_NAME);
+    customDocKeyVars = getContext().createELVars();
     
     //Connect to Couchbase DB
     LOG.info("Connecting to Couchbase " + getCouchbaseVersion() +  " with details: " + getURL() + " " + getBucket());
@@ -140,7 +152,7 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         connector.bulkSet(documentList); //Not working for some reason
         try {
             //connector.writeToBucket(documentList);
-            Thread.sleep(1000);
+            Thread.sleep(10);
         } catch (InterruptedException ex) {
             LOG.error(ex.getMessage());
         }
@@ -219,7 +231,13 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
             keyObject = uuid.toString();
         }
         else {
-            keyObject = jsonObject.get(getDocumentKey());
+            //Check Document Key Type
+            if (getDocumentType() == CouchbaseDocumentKeyTypes.FIELD)
+                keyObject = jsonObject.get(getDocumentKey());
+            else
+                keyObject = getCustomDocumentKeyValue(getCustomDocumentKey(), record);
+                
+                
             if (keyObject == null)
                 throw new NullPointerException("Document Key is Null");
         }
@@ -228,8 +246,8 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
         
         doc = JsonDocument.create(keyString, jsonObject);
         
-      } catch (NullPointerException ne) {
-            LOG.error(ne.getMessage());
+      } catch (ELEvalException ele) {
+            LOG.error(ele.getMessage());
       } catch (IOException ioe) {
             LOG.error(ioe.getMessage());
       } catch (DataGeneratorException dge) {
@@ -237,6 +255,11 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
       }
         
       return doc;
+  }
+  
+  private String getCustomDocumentKeyValue(String customDocumentKey, Record record) throws ELEvalException {
+      RecordEL.setRecordInContext(customDocKeyVars, record);
+      return customDocKeyEvals.eval(customDocKeyVars, customDocumentKey, String.class);
   }
   
    //Configuration get methods
@@ -255,5 +278,9 @@ public abstract class CouchbaseConnectorTarget extends BaseTarget {
   public abstract boolean generateDocumentKey();
   
   public abstract CouchbaseVersionTypes getCouchbaseVersion();
+  
+  public abstract String getCustomDocumentKey();
+  
+  public abstract CouchbaseDocumentKeyTypes getDocumentType();
 
 }

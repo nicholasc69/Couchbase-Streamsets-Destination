@@ -5,6 +5,8 @@ import com.streamsets.pipeline.api.ConfigGroups;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
 import com.streamsets.pipeline.api.StageDef;
 import com.streamsets.pipeline.api.ValueChooserModel;
+import com.streamsets.pipeline.lib.el.RecordEL;
+import com.streamsets.pipeline.lib.el.TimeEL;
 
 @StageDef(
     version = 1,
@@ -53,7 +55,9 @@ public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
     public String getBucket() {
       return bucket;
     }
-
+    
+    //Couchbase version
+    
     @ConfigDef(
         required = true,
         type = ConfigDef.Type.MODEL,
@@ -132,16 +136,37 @@ public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
     public String getUserPassword() {
       return userPassword;
     }
+    
+    //Document Key Selection
+    
+    @ConfigDef(
+        required = true,
+        type = ConfigDef.Type.MODEL,
+        defaultValue = "FIELD",
+        label = "Document Key Type",
+        description = "Specify the type of document key",
+        displayPosition = 50,
+        group = "COUCHBASE_TARGET"
+    )
+    @ValueChooserModel(CouchbaseDocumentKeyChooserValues.class)
+    public CouchbaseDocumentKeyTypes documentType = CouchbaseDocumentKeyTypes.FIELD; //Default
 
+      /** {@inheritDoc} */
+    @Override
+    public CouchbaseDocumentKeyTypes getDocumentType() {
+      return documentType;
+    }
 
     @ConfigDef(
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "",
       label = "Unique Document Key Field",
-      displayPosition = 50,
+      displayPosition = 60,
       description = "A field in the document/data which will be used as the unique document key in Couchbase",
-      group = "COUCHBASE_TARGET"
+      group = "COUCHBASE_TARGET",
+      dependsOn = "documentType",
+      triggeredByValue = "FIELD"
     )
 
     public String documentKey;
@@ -151,13 +176,36 @@ public class CouchbaseConnectorDTarget extends CouchbaseConnectorTarget {
     public String getDocumentKey() {
       return documentKey;
     }
+    
+    @ConfigDef(
+      required = true,
+      type = ConfigDef.Type.STRING,
+      defaultValue = "",
+      label = "Custom Document Key",
+      displayPosition = 60,
+      description = "Custom Document Key. Use the Expression Language to define a custom document key. "
+              + "Example: str:concat('customer::', records:value('/customerID'))",
+      group = "COUCHBASE_TARGET",
+      dependsOn = "documentType",
+      triggeredByValue = "CUSTOM_DOC_KEY",
+      elDefs = {RecordEL.class, TimeEL.class},
+      evaluation = ConfigDef.Evaluation.EXPLICIT
+    )
+
+    public String customDocumentKey;
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomDocumentKey() {
+      return customDocumentKey;
+    }
 
     @ConfigDef(
       required = false,
       type = ConfigDef.Type.BOOLEAN,
       defaultValue = "false",
       label = "Generate unique Document Key",
-      displayPosition = 60,
+      displayPosition = 70,
       description = "Generate a unique document key if document key field cannot be set",
       group = "COUCHBASE_TARGET"
     )

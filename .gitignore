@@ -1,6 +1,7 @@
 # Git
 *.rej
 *.orig
+*.jar
 
 # Maven
 target/

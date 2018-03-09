@@ -34,7 +34,7 @@
       <useTransitiveFiltering>true</useTransitiveFiltering>
       <outputDirectory>/${project.artifactId}/lib</outputDirectory>
       <unpack>false</unpack>
-      <scope>runtime</scope>
+      <scope>provided</scope>
       <excludes>
         <!-- Jython must be packaged differently. -->
         <exclude>org.python:jython-standalone</exclude>

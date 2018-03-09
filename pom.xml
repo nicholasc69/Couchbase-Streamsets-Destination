@@ -19,10 +19,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.couchbase.connector</groupId>
   <artifactId>CouchbaseConnector</artifactId>
-  <version>2.0</version>
+  <version>3.0</version>
 
   <properties>
-    <streamsets.version>3.0.2.0</streamsets.version>
+    <streamsets.version>3.1.0.0</streamsets.version>
+    <couchbase.version>2.5.5</couchbase.version>
     <slf4j.version>1.7.7</slf4j.version>
     <junit.version>4.12</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,17 +57,9 @@
     <dependency>
       <groupId>com.couchbase.client</groupId>
       <artifactId>java-client</artifactId>
-      <version>2.5.1</version>
+      <version>${couchbase.version}</version>
     </dependency>
-    
-     <!-- Test Dependencies -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
+        <dependency>
       <groupId>com.streamsets</groupId>
       <artifactId>streamsets-datacollector-api</artifactId>
       <version>${streamsets.version}</version>
@@ -88,6 +81,14 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j.version}</version>
       <scope>provided</scope>
+    </dependency>
+    
+     <!-- Test Dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

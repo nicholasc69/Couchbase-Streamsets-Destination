@@ -1,4 +1,6 @@
+com/couchbase/connector/stage/destination/CouchbaseDocumentKeyChooserValues.class
 PipelineStages.json
+com/couchbase/connector/stage/destination/CouchbaseDocumentKeyTypes.class
 LineagePublishers.json
 com/couchbase/connector/stage/destination/CouchbaseConnectorTarget.class
 com/couchbase/connector/stage/connection/CouchbaseConnector$1.class
@@ -12,6 +14,5 @@ ElDefinitions.json
 com/couchbase/connector/stage/destination/CouchbaseVersionTypes.class
 datacollector-resource-bundles.json
 com/couchbase/connector/stage/destination/CouchbaseVersionChooserValues.class
-com/couchbase/connector/stage/destination/CouchbaseConnectorDTarget.class
 com/couchbase/connector/stage/destination/CouchbaseConnectorTarget$1.class
 StageDefList.json
