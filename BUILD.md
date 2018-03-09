@@ -4,12 +4,19 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
 
 * GIT
 * Apache Maven 3.3.9
-* Java 1.8
+* Java 1.8 (Orcale or OpenJDK)
 
 
 1. Get the project from GitHub.
 
     * Clone the project from GitHub using: https://github.com/nicholasc69/CouchbaseConnector.git
+
+2. Clone and install the following Streamsets repositories from Streamsets
+    * Streamsets API
+    * Streamsets Plugin API
+    * Streamsets Data Collector
+
+    Following the build instructions at the following link: https://github.com/streamsets/datacollector/blob/master/BUILD.md    
 
 2. Build and package the Couchbase Destination
 
@@ -45,3 +52,5 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
 
 
 Restart StreamSets Data Collector. In the pipeline editor a Couchbase Destination is avaliable in Destinations list.
+
+
