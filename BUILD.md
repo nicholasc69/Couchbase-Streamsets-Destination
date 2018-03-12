@@ -1,6 +1,6 @@
 #Building Couchbase Destination for Streamset
 
-To build the *Couchbase-Streamset-Destination* the following is required on the system:
+To build the *Couchbase-Streamset-Destination* the following are required on the system:
 
 * GIT
 * Apache Maven 3.3.9
@@ -16,7 +16,7 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
     * Streamsets Plugin API
     * Streamsets Data Collector
 
-    Following the build instructions at the following link: https://github.com/streamsets/datacollector/blob/master/BUILD.md    
+    Follow the build instructions at the following link: https://github.com/streamsets/datacollector/blob/master/BUILD.md    
 
 2. Build and package the Couchbase Destination
 
