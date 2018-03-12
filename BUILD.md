@@ -11,7 +11,7 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
 
     * Clone the project from GitHub using: https://github.com/nicholasc69/CouchbaseConnector.git
 
-2. Clone and install the following Streamsets repositories from Streamsets
+2. Clone and install the following Streamsets repositories from Streamsets (clone the 3.1.0.0 branch)
     * Streamsets API
     * Streamsets Plugin API
     * Streamsets Data Collector
