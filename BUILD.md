@@ -53,4 +53,4 @@ To build the *Couchbase-Streamset-Destination* the following is required on the 
 
 Restart StreamSets Data Collector. In the pipeline editor a Couchbase Destination is avaliable in Destinations list.
 
-
+[logo]: https://github.com/nicholasc69/Couchbase-Streamsets-Destination/blob/master/src/main/resources/couchbase_destination.png
