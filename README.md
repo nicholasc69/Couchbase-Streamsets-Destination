@@ -1,6 +1,6 @@
 # Couchbase-Streamset-Destination
 
-This *Couchbase-Streamsets-Destination* is a *Streamset* Destionatio connector.
+This *Couchbase-Streamsets-Destination* is a *Streamset* Destination connector.
 
 It allows streamset pipelines to ingest JSON documents from *Streamset* origins into a *Couchbase* bucket.
 
